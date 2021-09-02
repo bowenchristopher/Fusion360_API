@@ -1,0 +1,10 @@
+{
+	"autodeskProduct":	"Fusion360",
+	"type":	"script",
+	"author":	"Bowen Christopher ",
+	"description":	{
+		"":	"This script adds the ability to evaluate logical operators added to the comment of a Fusion 360 Parameter"
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
