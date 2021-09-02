@@ -2,7 +2,7 @@
 #Description-This script adds the ability to evaluate logical operators added to the comment of a Fusion 360 Parameter
 #
 # Example parameter comment:
-# if OD_IN >7:; OD_IN = OD_IN;else:; OD_IN=11; #
+# if OD_IN >7:; OD_IN = OD_IN;else:; OD_IN=11; 
 #
 # the line will be evaluated as 
 # OD_IN =3
