@@ -1,5 +1,5 @@
 #Author-Bowen Christopher 
-#Description-This script adds the ability to evaluate logical operators added to the comment of a Fusion 360 Parameter
+#Description-This script adds the ability to evaluate logical operators and conditional statements added to the comment of a Fusion 360 Parameter
 #
 # Example parameter comment:
 # if OD_IN >7:; OD_IN = OD_IN;else:; OD_IN=11; 
