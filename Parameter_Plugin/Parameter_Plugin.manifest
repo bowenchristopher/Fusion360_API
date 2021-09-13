@@ -1,0 +1,13 @@
+{
+	"autodeskProduct":	"Fusion360",
+	"type":	"addin",
+	"id":	"5a908399-6839-4227-a1af-3ebabb595932",
+	"author":	"Bowen Christopher ",
+	"description":	{
+		"":	"Fusion 360 Parameters with Logical operators allowed in comments "
+	},
+	"version":	"1",
+	"runOnStartup":	false,
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
