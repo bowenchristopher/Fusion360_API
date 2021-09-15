@@ -87,3 +87,8 @@ All expressions are evaluated using python 3 syntax so spacing needs to be consi
 
 ![image](https://user-images.githubusercontent.com/41913546/133498447-3eeae4fe-16a6-4818-a53a-55473c811c4d.png)
 
+9. Click okay and the model will be updated
+
+![image](https://user-images.githubusercontent.com/41913546/133499313-6fbfc388-0607-4c60-83f6-05ad5f4e3810.png)
+
+
