@@ -83,12 +83,13 @@ All expressions are evaluated using python 3 syntax so spacing needs to be consi
 
 ![image](https://user-images.githubusercontent.com/41913546/133498621-4f2f1df0-93bb-46e3-949a-5f9cc4a5c440.png)
 
-8. Syntax issues will be displayed in warnings
+8. Click okay and the model will be updated
+
+![image](https://user-images.githubusercontent.com/41913546/133499313-6fbfc388-0607-4c60-83f6-05ad5f4e3810.png)
+
+9. Syntax issues will be displayed in warnings
 
 ![image](https://user-images.githubusercontent.com/41913546/133498447-3eeae4fe-16a6-4818-a53a-55473c811c4d.png)
 
-9. Click okay and the model will be updated
-
-![image](https://user-images.githubusercontent.com/41913546/133499313-6fbfc388-0607-4c60-83f6-05ad5f4e3810.png)
 
 
