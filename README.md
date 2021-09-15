@@ -4,9 +4,9 @@ This is a Fusion 360 API ADD-IN that evaluates logical operators and conditional
 ![image](https://user-images.githubusercontent.com/41913546/133493654-20025c53-a8b9-45b6-b600-4118d8062314.png)
 
 # Installation
-<a href="https://downgit.github.io/#/home?url=https://github.com/bowenchristopher/Fusion360_API/tree/main/Parameter_Plugin"> Click Here to download the ADD-IN </a>
+Clone or download the Parameter Plugin folder
 
-After Downloading the Zip file follow the instructions below 
+Unzip the Folder 
 
 In the Fusion 360 Model enviorment click tools
 
