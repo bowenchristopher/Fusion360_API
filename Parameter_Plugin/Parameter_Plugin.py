@@ -3,7 +3,7 @@
 
 import adsk.core, adsk.fusion, adsk.cam, traceback, csv, time, datetime, os
 
-_commandId = 'Parameteric Plugin'
+_commandId = 'Parameter AddIn'
 _workspaceToUse = 'FusionSolidEnvironment'
 _panelToUse = 'SolidModifyPanel'
 
@@ -44,7 +44,7 @@ def destroyObject(uiObj, tobeDeleteObj):
 def run(context):
     ui = None
     try:
-        commandName = 'Parameter Plugin'
+        commandName = 'Parameter AddIn'
         commandDescription = 'Adds Executed Logic to Fusion 360 Parameter Comments\n'
         commandResources = './resources/command'
 
@@ -113,7 +113,8 @@ def run(context):
                         for parameter in userParams: 
                             inputs.addStringValueInput(str(parameter.name),str(parameter.name),parameter.expression)
                             inputs.addStringValueInput(str(parameter.name)+'_comment','Comment',parameter.comment)
-                        
+                    else:
+                         ui.messageBox('Model contains no user parameters')    
                 except:
                     if ui:
                         ui.messageBox('Panel command created failed:\n{}'.format(traceback.format_exc()))
@@ -141,7 +142,7 @@ def run(context):
         if not toolbarControlPanel:
             toolbarControlPanel = toolbarControlsPanel.addCommand(commandDefinition, '')
             toolbarControlPanel.isVisible = True
-            ui.messageBox("Parameter Plugin added to the Modify Panel")
+            ui.messageBox("Parameter Add-in added to the Modify Panel")
 
     except:
         if ui:
