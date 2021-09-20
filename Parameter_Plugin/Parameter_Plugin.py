@@ -51,13 +51,6 @@ def run(context):
         app = adsk.core.Application.get()
         ui = app.userInterface
 
-        class designParam:
-            def __init__(self, ids, param, comment):
-                self.ids = ids
-                self.param = param
-                self.comment = comment 
-
-
         class CommandExecuteHandler(adsk.core.CommandEventHandler):
             def __init__(self):
                 super().__init__()
@@ -177,23 +170,23 @@ def stop(context):
             ui.messageBox('AddIn Stop Failed:\n{}'.format(traceback.format_exc()))
 
 def updateModel(params,values,comments):
-    # Update Model Parametric
+    # update model parametric
     app = adsk.core.Application.get()
     ui = app.userInterface
     try: 
         document = app.activeDocument
         design = document.design
 
-        # Get Assigned User Parameters
+        # get ussigned user parameters
         userParams = False 
         userParams = design.userParameters 
-        # If design contains user params attempt to update
+        # if design contains user params attempt to update
         if userParams: 
-            # Make sure number of comments is equal to number of parameters 
+            # make sure number of comments is equal to number of parameters 
             if (len(params) == len(comments)):
                 for parameter in userParams: 
                     i = params.index(parameter.name)
-                    # Remove units from parameter value 
+                    # remove units from parameter value 
                     value  = (values[i]).split(' ')
                     value = value[0]
 
@@ -207,15 +200,14 @@ def updateModel(params,values,comments):
             ui.messageBox('Failed:\n{}'.format(traceback.format_exc())) 
 
 def cleanComment(name,comment,value):
-    # Update Model Parameters 
     app = adsk.core.Application.get()
     ui = app.userInterface
     try:  
-        # This list of restricted syntax exists to make the exec command safer
+        # this list of restricted syntax exists to make the exec command safer
         restricted_syntax = ['as','assert','break','class','continue','def','del','except','for','from','global','lambda','None','nonlocal','return','try','with','while','yield','open','import','eval','exec','os.']
-        # All comments that can be executed will contain either a : or ; 
-        if (';' in comment or ':' in comment or ' ' in comment):
-            # Replace semicolons with new line characters to convert to Python syntax
+        # all comments that can be executed will contain either a : or ; 
+        if (';' in comment or ':' in comment):
+            # replace semicolons with new line characters to convert to Python syntax
             comment = comment.replace(";", "\n")
             exist = False
 
@@ -235,12 +227,12 @@ def execComment(name,comment,value):
     app = adsk.core.Application.get()
     ui = app.userInterface
     try: 
-        # Append parametric variables name and value to the front of the comment so it can be passed to the expression 
+        # append parametric variables name and value to the front of the comment so it can be passed to the expression 
         insert = str(name+'='+value+"\n")
         comment = insert+comment
         loc = {}
         try:
-            # Creates a global variable to get return variable from executed comment 
+            # creates a global variable to get return variable from executed comment 
             exec(comment, globals(), loc)
             return_val = str(loc[name])
             return(return_val)
