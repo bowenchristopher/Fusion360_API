@@ -148,7 +148,7 @@ def run(context):
         if not toolbarControlPanel:
             toolbarControlPanel = toolbarControlsPanel.addCommand(commandDefinition, '')
             toolbarControlPanel.isVisible = True
-            # ui.messageBox("Weidmann Automation added to the Modify Panel")
+            ui.messageBox("Parameter Plugin added to the Modify Panel")
 
     except:
         if ui:
@@ -177,7 +177,7 @@ def stop(context):
             ui.messageBox('AddIn Stop Failed:\n{}'.format(traceback.format_exc()))
 
 def updateModel(params,values,comments):
-    # update Model Parametric
+    # Update Model Parametric
     app = adsk.core.Application.get()
     ui = app.userInterface
     try: 
@@ -187,70 +187,63 @@ def updateModel(params,values,comments):
         # Get Assigned User Parameters
         userParams = False 
         userParams = design.userParameters 
-
+        # If design contains user params attempt to update
         if userParams: 
-            x = len(params) 
-            y = len(comments)
-            if ( x == y):
+            # Make sure number of comments is equal to number of parameters 
+            if (len(params) == len(comments)):
                 for parameter in userParams: 
-                    if (len(parameter.comment)>0):
-                        i = params.index(parameter.name)
+                    i = params.index(parameter.name)
+                    # Remove units from parameter value 
+                    value  = (values[i]).split(' ')
+                    value = value[0]
 
-                        value  = (values[i]).split(' ')
-                        # remove units from parameter value 
-                        value = value[0]
+                    if (len(parameter.comment)>0):
                         test = cleanComment(params[i],comments[i],value)
                         userParams.itemByName(parameter.name).expression = str(test)
-        
+                    else:
+                        userParams.itemByName(parameter.name).expression = value
     except: 
         if ui:
             ui.messageBox('Failed:\n{}'.format(traceback.format_exc())) 
 
 def cleanComment(name,comment,value):
-    # update Model Parametric
+    # Update Model Parameters 
     app = adsk.core.Application.get()
     ui = app.userInterface
     try:  
-
-        # List of restricted words 
-        # This exists to make exec safer 
-        restricted_syntax = ['as','assert','break','class','continue','def','del','except','for','from','global','lambda','None','nonlocal','return','try','with','yield','open','import','exec','eval']
-                     
-        if (';' in comment or ':' in comment or ' '):
-            # Replace semi colons with newline characters to make python syntax right
+        # This list of restricted syntax exists to make the exec command safer
+        restricted_syntax = ['as','assert','break','class','continue','def','del','except','for','from','global','lambda','None','nonlocal','return','try','with','while','yield','open','import','eval','exec','os.']
+        # All comments that can be executed will contain either a : or ; 
+        if (';' in comment or ':' in comment or ' ' in comment):
+            # Replace semicolons with new line characters to convert to Python syntax
             comment = comment.replace(";", "\n")
-            
-            # This is a soft limit, 
-            if(len(comment) < 128):
-                exist = False
-                for word in restricted_syntax:
-                    if (word in comment):
-                        message = word + ' is not allowed syntax'
-                        return(value)
-                if (not exist):
-                    return(execComment(name,str(comment),value))
-            else:
-                message = 'expressions cannot excede 128 characters'
-        
-        # ui.messageBox(message)
+            exist = False
+
+            for word in restricted_syntax:
+                if (word in comment.lower()):
+                    ui.messageBox(word + ' is unsafe syntax')
+                    exist = True
+                    return(value)
+
+            if (not exist):
+                return(execComment(name,str(comment),value))
     except:
         if ui:
             ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))  
-
+            
 def execComment(name,comment,value):
     app = adsk.core.Application.get()
     ui = app.userInterface
     try: 
-        # append parametric variable to the front of the comment so it can be used in the equation 
+        # Append parametric variables name and value to the front of the comment so it can be passed to the expression 
         insert = str(name+'='+value+"\n")
-
         comment = insert+comment
-
         loc = {}
         try:
+            # Creates a global variable to get return variable from executed comment 
             exec(comment, globals(), loc)
-            return_workaround = loc[name]
-            return(str(return_workaround))
+            return_val = str(loc[name])
+            return(return_val)
         except:
             ui.messageBox('Python Syntax issue Found \n'+str(comment))
             return value
