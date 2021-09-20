@@ -40,11 +40,11 @@ Click Run
 
 ![image](https://user-images.githubusercontent.com/41913546/133495808-001a2f96-d444-4df0-a42f-19d005659615.png)
 
-Make sure the Add-In Started
+If the Add-In started this message will be displayed
 
-![image](https://user-images.githubusercontent.com/41913546/133496277-91b22be6-de68-4460-8e18-4293862c9acc.png)
+![image](https://user-images.githubusercontent.com/41913546/134031217-bfce65d4-1890-42ce-aa6e-34dfeeec3f40.png)
 
-Go Back to the Solid Tab, the addin will be added to the Modify panel
+Go Back to the Solid Tab, the ADD-IN will be added to the Modify panel
 
 ![image](https://user-images.githubusercontent.com/41913546/133495933-52007e0b-a520-4254-aa2a-c0adc6f9335f.png)
 
