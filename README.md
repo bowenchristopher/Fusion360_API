@@ -1,5 +1,5 @@
 # Parameter Plugin
-This is a Fusion 360 API ADD-IN that evaluates logical operators and conditional expressions added to the comment of a Design Parameter
+This is a Fusion 360 API ADD-IN that evaluates logical operators and conditional expressions added to the comment of a Design Parameter this can be used to preform Ilogic like operations in Fusion 360 
 
 ![image](https://user-images.githubusercontent.com/41913546/133493654-20025c53-a8b9-45b6-b600-4118d8062314.png)
 
