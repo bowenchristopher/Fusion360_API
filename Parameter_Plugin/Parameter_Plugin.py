@@ -1,5 +1,5 @@
 #Author-Bowen Christopher 
-#Description-Fusion 360 Parameters with Logical operators allowed in comments 
+#Description-Fusion 360 Parameters with Logical operators evaluated in comments 
 
 import adsk.core, adsk.fusion, adsk.cam, traceback, csv, time, datetime, os
 
@@ -121,7 +121,7 @@ def run(context):
 
         commandDefinitions = ui.commandDefinitions
 
-	    # check if we have the command definition
+	# check if we have the command definition
         commandDefinition = commandDefinitions.itemById(_commandId)
         if not commandDefinition:
             commandDefinition = commandDefinitions.addButtonDefinition(_commandId, commandName, commandDescription, commandResources)		 
@@ -177,8 +177,11 @@ def updateModel(params,values,comments):
     try: 
         document = app.activeDocument
         design = document.design
+        
+        #variable insert string to add previous parameters to evaluated comments 
+        insert = ""
 
-        # get ussigned user parameters
+        # get assigned user parameters
         userParams = False 
         userParams = design.userParameters 
         # if design contains user params attempt to update
@@ -192,15 +195,23 @@ def updateModel(params,values,comments):
                     value = value[0]
 
                     if (len(parameter.comment)>0):
-                        test = cleanComment(params[i],comments[i],value)
-                        userParams.itemByName(parameter.name).expression = str(test)
+                        # clean and run the comment 
+                        test = cleanComment(params[i],comments[i],value,insert)
+                        value = str(test)
+
+                    # supress feature if the parameter value is 0 
+                    if (value =='0'):
+                        userParams.itemByName(parameter.name).isSuppressed = True
                     else:
                         userParams.itemByName(parameter.name).expression = value
+
+                    insert = insert + str(parameter.name+'='+value+"\n")
+
     except: 
         if ui:
             ui.messageBox('Failed:\n{}'.format(traceback.format_exc())) 
 
-def cleanComment(name,comment,value):
+def cleanComment(name,comment,value,insert):
     app = adsk.core.Application.get()
     ui = app.userInterface
     try:  
@@ -210,27 +221,28 @@ def cleanComment(name,comment,value):
         if (';' in comment or ':' in comment):
             # replace semicolons with new line characters to convert to Python syntax
             comment = comment.replace(";", "\n")
-            exist = False
+            safe = True
 
             for word in restricted_syntax:
                 if (word in comment.lower()):
+                    safe = False
                     ui.messageBox(word + ' is unsafe syntax')
-                    exist = True
-                    return(value)
+                    
+            if (safe):
+                value = execComment(name,str(comment),value,insert)
 
-            if (not exist):
-                return(execComment(name,str(comment),value))
+            return(value)    
     except:
         if ui:
             ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))  
             
-def execComment(name,comment,value):
+def execComment(name,comment,value,insert):
     app = adsk.core.Application.get()
     ui = app.userInterface
     try: 
         # append parametric variables name and value to the front of the comment so it can be passed to the expression 
-        insert = str(name+'='+value+"\n")
-        comment = insert+comment
+        val = name+'='+value+"\n"
+        comment = val+insert+comment
         loc = {}
         try:
             # creates a global variable to get return variable from executed comment 
